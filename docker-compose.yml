@@ -1,0 +1,43 @@
+services:
+  mongo:
+    image: mongo:5.0
+    container_name: blog_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: Omani2025
+    volumes:
+      - ./mongodb-data:/data/db
+    ports:
+      -  "27018:27017"  # Changed from 27017:27017
+    networks:
+      - blog-network
+
+  server:
+    build: ./server
+    container_name: blog_server
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=mongodb://root:Omani2025@mongo:27017/blog?authSource=admin
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+    networks:
+      - blog-network
+
+  client:
+    build: ./client
+    container_name: blog_client
+    ports:
+      - "3000:80"
+    depends_on:
+      - server
+    networks:
+      - blog-network
+
+networks:
+  blog-network:
+    driver: bridge
