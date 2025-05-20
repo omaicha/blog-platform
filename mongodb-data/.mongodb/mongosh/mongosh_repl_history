@@ -1,0 +1,5 @@
+exit
+db.posts.insertOne({ title: "First Post", content: "Hello world!", author: "Admin", createdAt: new Date(), isPublished: true, views: 0 })
+db.createCollection("posts")
+db.createCollection("users")
+db.createUser({ user: "blog_user", pwd: "blog_password123",  // Change this! roles: [ { role: "readWrite", db: "blog" }, { role: "dbAdmin", db: "blog" } ] })db.createCollection("posts")ts")
