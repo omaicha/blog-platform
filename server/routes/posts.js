@@ -1,6 +1,20 @@
 const router = require('express').Router();
 const Post = require('../models/Post');
 const auth = require('../middleware/auth');
+const express = require('express');
+
+const {
+  getPosts,
+  getPostById,
+  createPost,
+  deletePost
+} = require('../controllers/postController');
+const auth = require('../middleware/auth');
+
+router.get('/', getPosts);
+router.get('/:id', getPostById);
+router.post('/', auth, createPost);
+router.delete('/:id', auth, deletePost);
 
 // Create Post
 router.post('/', auth, async (req, res) => {
