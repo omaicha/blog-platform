@@ -38,4 +38,4 @@ This is a **MERN stack** (MongoDB, Express, React, Node.js) blogging app where u
 
 **Easy to run** with Docker or locally! 🚀  
 
-
+<https://github.com/omaicha/blog-platform/blob/main/screenshuts/Screenshot%20from%202025-05-21%2012-38-29.png>
