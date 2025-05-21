@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   mongo:
     image: mongo:5.0
@@ -6,11 +8,15 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: Omani2025
     volumes:
-      - ./mongodb-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongodb_data:/data/db
     ports:
-      -  "27018:27017"  # Changed from 27017:27017
-    networks:
-      - blog-network
+      - "27018:27017"  # Changed from 27017:27017
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh -u root -p Omani2025 --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   server:
     build: ./server
@@ -19,25 +25,24 @@ services:
       - "5000:5000"
     environment:
       - NODE_ENV=development
-      - MONGO_URI=mongodb://root:Omani2025@mongo:27017/blog?authSource=admin
-    volumes:
-      - ./server:/app
-      - /app/node_modules
+      - JWT_SECRET=your_jwt_secret_here
+      - MONGO_URI=mongodb://blog_user:blog_password123@mongo:27017/blog?authSource=blog
     depends_on:
-      - mongo
-    networks:
-      - blog-network
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   client:
     build: ./client
     container_name: blog_client
     ports:
-      - "3000:80"
+      - "3000:3000"
     depends_on:
       - server
-    networks:
-      - blog-network
 
-networks:
-  blog-network:
-    driver: bridge
+volumes:
+  mongodb_data:
