@@ -1,5 +1,5 @@
 **Simple Blog Platform Summary**  
-
+Link of the project online : https://blog-platform-gamma-sable.vercel.app/about
 This is a **MERN stack** (MongoDB, Express, React, Node.js) blogging app where users can:  
 
 ### **Core Features**  
