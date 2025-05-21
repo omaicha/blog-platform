@@ -59,3 +59,22 @@ db.posts.insertMany([
     createdAt: new Date('2023-02-20')
   }
 ]);
+
+db.createUser({
+  user: "blog_admin",
+  pwd: "SecurePassword123!",
+  roles: [
+    { role: "userAdminAnyDatabase", db: "admin" },
+    { role: "readWriteAnyDatabase", db: "admin" }
+  ]
+});
+
+db = db.getSiblingDB('blog');
+db.createUser({
+  user: "blog_user",
+  pwd: "AppPassword456!",
+  roles: [
+    { role: "readWrite", db: "blog" },
+    { role: "dbAdmin", db: "blog" }
+  ]
+});
