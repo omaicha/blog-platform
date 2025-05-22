@@ -1,6 +1,8 @@
 **Simple Blog Platform Summary**  
+Deployment
 frontend : https://backend-omaichas-projects.vercel.app
 backend: https://backend-omaichas-projects.vercel.app/
+
 This is a **MERN stack** (MongoDB, Express, React, Node.js) blogging app where users can:  
 
 ### **Core Features**  
